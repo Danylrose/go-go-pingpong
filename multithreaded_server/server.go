@@ -21,16 +21,43 @@ func NewServer(config *Config) *Server {
 }
 
 func (server *Server) RunServer() {
-	listener, err := net.Listen("tcp", fmt.Sprintf("%s:%d", server.host, server.port))
+	//listener, err := net.Listen("tcp", fmt.Sprintf("%s:%d", server.host, server.port))
+	var listener net.Listener
+	var err error
+	listener, err = net.Listen("tcp", fmt.Sprintf("%s:%d", server.host, server.port))
+
 	if err != nil {
-		log.Fatalf("Failed to establish connection. Error: %s", err)
+		log.Fatalf("Cannot establish connection. Error: %v", err)
 	}
-	defer listener.Close()
+
+	var conn net.Conn
 
 	for {
-		conn, err := listener.Accept()
+		conn, err = listener.Accept()
 		if err != nil {
-			log.Fatalf("Failed to establish connection. Error: %s", err)
+			log.Fatalf("Connection failed. Error: %s", err)
 		}
+
 	}
+}
+
+func connectionHandler(connection net.Conn) {
+	defer connection.Close()
+	var buf []byte
+	var numBytes int
+	var err error
+	buf = make([]byte, 1024)
+
+	for {
+		numBytes, err = connection.Read(buf)
+		if err != nil {
+			log.Fatalf("Connection failed. Error: %s", err)
+		}
+		// place holder code for ping-pong
+	}
+
+}
+
+func distributedCoinToss() {
+
 }
