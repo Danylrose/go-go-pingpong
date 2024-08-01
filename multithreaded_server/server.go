@@ -3,6 +3,7 @@ package multithreaded_server
 import (
 	"fmt"
 	"log"
+	"math/rand"
 	"net"
 )
 
@@ -54,10 +55,16 @@ func connectionHandler(connection net.Conn) {
 			log.Fatalf("Connection failed. Error: %s", err)
 		}
 		// place holder code for ping-pong
+		distributedCoinToss(connection)
 	}
 
 }
 
-func distributedCoinToss() {
+func distributedCoinToss(rdwr net.Conn) {
+	var coinToss int = rand.Intn(2)
+	var message string
+	switch coinToss {
+	case 0:
 
+	}
 }
